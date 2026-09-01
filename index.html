@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donatello · Monte sua comemoração</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,600&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a0708;
+    --ink-2:#141011;
+    --rose-1:#e7ccce;
+    --rose-2:#d6a9ae;
+    --rose-3:#c2888f;
+    --rose-deep:#8a565c;
+    --red:#e5342a;
+    --red-dim:#b7261e;
+    --cream:#f6eeee;
+    --line:rgba(246,238,238,.14);
+    --line-strong:rgba(246,238,238,.28);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:"Barlow",system-ui,sans-serif;
+    background:var(--ink);
+    color:var(--cream);
+    line-height:1.5;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:clamp(20px,4vw,56px) clamp(16px,4vw,40px) 80px}
+
+  /* ---------- HERO ---------- */
+  .venue{
+    font-family:"Barlow Semi Condensed",sans-serif;
+    font-weight:700;letter-spacing:.42em;text-transform:uppercase;
+    font-size:clamp(11px,2.4vw,14px);
+    color:var(--rose-3);
+    padding-left:.42em;
+  }
+  .venue::before{content:"";display:inline-block;width:26px;height:2px;background:var(--red);vertical-align:middle;margin-right:14px;transform:translateY(-3px)}
+  h1{
+    font-family:"Anton",sans-serif;font-weight:400;
+    text-transform:uppercase;
+    font-size:clamp(42px,10.5vw,104px);
+    line-height:.92;letter-spacing:-.01em;
+    margin:.28em 0 .18em;
+  }
+  h1 .glow{color:var(--red)}
+  h1 em{font-style:italic;color:var(--red);font-family:"Barlow",sans-serif;font-weight:700;font-size:.82em}
+  .lede{
+    max-width:46ch;color:rgba(246,238,238,.62);
+    font-size:clamp(15px,2.2vw,18px);
+  }
+
+  /* ---------- STEP LABEL ---------- */
+  .steps{margin-top:clamp(34px,5vw,60px);display:grid;gap:20px}
+  @media(min-width:760px){.steps{grid-template-columns:1fr 1fr}}
+
+  .counter{
+    position:relative;
+    background:linear-gradient(158deg,var(--ink-2),#0c0809 70%);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:clamp(22px,3vw,30px);
+    overflow:hidden;
+  }
+  .counter::after{
+    content:"";position:absolute;inset:0 0 auto 0;height:4px;
+    background:linear-gradient(90deg,var(--red),var(--rose-deep));
+    opacity:.9;
+  }
+  .counter[data-zone="lounge"]::after{background:linear-gradient(90deg,var(--rose-2),var(--rose-deep))}
+  .c-tag{
+    font-family:"Barlow Semi Condensed",sans-serif;font-weight:700;
+    text-transform:uppercase;letter-spacing:.16em;font-size:12px;color:var(--red);
+  }
+  .counter[data-zone="lounge"] .c-tag{color:var(--rose-2)}
+  .c-name{
+    font-family:"Anton",sans-serif;text-transform:uppercase;
+    font-size:clamp(28px,5vw,40px);line-height:1;margin:2px 0 4px;letter-spacing:0;
+  }
+  .c-when{color:rgba(246,238,238,.5);font-size:14px;margin-bottom:22px}
+
+  .stepper{display:flex;align-items:center;gap:16px}
+  .step-btn{
+    width:52px;height:52px;flex:0 0 52px;
+    border:1px solid var(--line-strong);
+    background:transparent;color:var(--cream);
+    border-radius:50%;
+    font-size:26px;line-height:1;cursor:pointer;
+    display:grid;place-items:center;
+    transition:background .15s ease,border-color .15s ease,transform .08s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .step-btn:hover{border-color:var(--rose-2);background:rgba(214,169,174,.08)}
+  .step-btn:active{transform:scale(.92)}
+  .step-btn:disabled{opacity:.28;cursor:not-allowed}
+  .step-btn:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+  .count-field{flex:1;text-align:center}
+  .count-field input{
+    width:100%;background:transparent;border:none;color:var(--cream);
+    font-family:"Anton",sans-serif;font-size:clamp(46px,11vw,66px);
+    text-align:center;line-height:1;
+  }
+  .count-field input:focus{outline:none;color:var(--rose-2)}
+  .count-field input::-webkit-outer-spin-button,
+  .count-field input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .count-field input[type=number]{-moz-appearance:textfield}
+  .count-cap{
+    font-family:"Barlow Semi Condensed",sans-serif;font-weight:600;
+    text-transform:uppercase;letter-spacing:.14em;font-size:11px;
+    color:rgba(246,238,238,.4);margin-top:2px;
+  }
+  .tier-badge{
+    margin-top:16px;display:inline-flex;align-items:center;gap:8px;
+    font-family:"Barlow Semi Condensed",sans-serif;font-weight:600;
+    text-transform:uppercase;letter-spacing:.1em;font-size:12px;
+    padding:7px 13px;border-radius:100px;
+    background:rgba(229,52,42,.12);color:var(--rose-1);
+    border:1px solid rgba(229,52,42,.35);
+    transition:opacity .2s ease;
+  }
+  .tier-badge.empty{background:rgba(246,238,238,.04);border-color:var(--line);color:rgba(246,238,238,.4)}
+  .tier-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--red)}
+  .tier-badge.empty .dot{background:rgba(246,238,238,.3)}
+
+  /* ---------- NUDGE (incentivo de venda) ---------- */
+  .nudge{
+    display:none;width:100%;text-align:left;
+    margin-top:14px;padding:14px 16px;border-radius:4px;
+    background:rgba(246,238,238,.03);
+    border:1px solid var(--line-strong);
+    color:var(--cream);font-family:inherit;
+    transition:border-color .18s ease,background .18s ease;
+  }
+  .nudge.show{display:block}
+  .nudge .n-head{
+    display:flex;align-items:center;gap:9px;
+    font-family:"Barlow Semi Condensed",sans-serif;font-weight:700;
+    text-transform:uppercase;letter-spacing:.05em;font-size:14px;line-height:1.15;
+  }
+  .nudge .spark{
+    flex:0 0 auto;width:26px;height:26px;border-radius:50%;
+    display:grid;place-items:center;font-size:15px;
+    background:rgba(229,52,42,.14);color:var(--red);
+  }
+  .nudge .n-unlock{
+    margin-top:9px;font-size:13.5px;color:rgba(246,238,238,.62);line-height:1.45;
+  }
+  .nudge .n-unlock b{color:var(--rose-1);font-weight:600}
+  /* termômetro / barra de progresso */
+  .nudge .meter{
+    margin-top:12px;height:12px;border-radius:100px;
+    background:rgba(255,255,255,.09);
+    box-shadow:inset 0 1px 2px rgba(0,0,0,.4);
+    overflow:hidden;position:relative;
+  }
+  .nudge .meter-fill{
+    height:100%;border-radius:100px;width:0;
+    background:linear-gradient(90deg,var(--red-dim),var(--red) 70%,#ff6f65);
+    box-shadow:0 0 12px rgba(229,52,42,.55);
+    transition:width .55s cubic-bezier(.2,.7,.3,1);
+    position:relative;
+  }
+  .nudge .meter-fill::after{
+    content:"";position:absolute;inset:0;border-radius:100px;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.35));
+    mix-blend-mode:overlay;
+  }
+  .nudge .meter-scale{
+    margin-top:7px;display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+    font-family:"Barlow Semi Condensed",sans-serif;font-weight:600;
+    text-transform:uppercase;letter-spacing:.08em;font-size:11px;
+    color:rgba(246,238,238,.45);
+  }
+  .nudge .meter-scale b{color:var(--rose-1);font-weight:700}
+  .nudge.hot .meter-fill{background:linear-gradient(90deg,var(--red),#ff8078)}
+  .nudge.maxed .meter-fill{background:linear-gradient(90deg,var(--rose-3),var(--rose-1));box-shadow:0 0 12px rgba(214,169,174,.5)}
+  .nudge.maxed .meter-scale b{color:var(--rose-1)}
+  /* estado "falta pouco" */
+  .nudge.hot{
+    background:linear-gradient(120deg,rgba(229,52,42,.16),rgba(229,52,42,.04));
+    border-color:rgba(229,52,42,.55);
+    animation:breathe 2.2s ease-in-out infinite;
+  }
+  .nudge.hot .n-head{color:#ffd7d3}
+  .nudge.hot .spark{background:var(--red);color:#fff}
+  /* estado "pacote completo" */
+  .nudge.maxed{
+    background:linear-gradient(120deg,rgba(214,169,174,.14),rgba(214,169,174,.03));
+    border-color:rgba(214,169,174,.45);
+  }
+  .nudge.maxed .n-head{color:var(--rose-1)}
+  .nudge.maxed .spark{background:rgba(214,169,174,.2);color:var(--rose-1)}
+
+  @keyframes breathe{
+    0%,100%{box-shadow:0 0 0 0 rgba(229,52,42,0)}
+    50%{box-shadow:0 0 22px 1px rgba(229,52,42,.28)}
+  }
+
+  /* ---------- TÍTULO DA SEÇÃO DE BRINDES ---------- */
+  .section-title{
+    margin-top:clamp(38px,6vw,64px);
+    font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;
+    font-size:clamp(22px,4.4vw,34px);line-height:1.02;letter-spacing:0;
+    color:var(--cream);
+    display:flex;align-items:center;gap:14px;
+  }
+  .section-title::before{content:"";flex:0 0 auto;width:30px;height:3px;background:var(--red)}
+  .section-title span{color:var(--red)}
+
+  /* ---------- RESULT ---------- */
+  .result{
+    margin-top:clamp(14px,2vw,20px);
+    border:1px solid rgba(229,52,42,.42);border-radius:6px;
+    background:
+      radial-gradient(130% 150% at 100% 0%,rgba(229,52,42,.28),transparent 58%),
+      linear-gradient(180deg,#3a0e0c,#210706);
+    box-shadow:0 24px 60px -30px rgba(229,52,42,.5),inset 0 1px 0 rgba(255,255,255,.04);
+    overflow:hidden;
+  }
+  .result-head{
+    padding:clamp(22px,3.5vw,32px) clamp(22px,4vw,38px);
+    border-bottom:1px solid rgba(255,255,255,.12);
+    display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:14px;
+  }
+  .result-head h2{
+    font-family:"Anton",sans-serif;text-transform:uppercase;
+    font-size:clamp(26px,5.5vw,44px);line-height:.95;color:#fff;
+  }
+  .result-head h2 span{color:#ffb9b2}
+  .result-head p{color:rgba(255,235,233,.62);font-size:14px;max-width:34ch}
+
+  .cols{display:grid}
+  @media(min-width:720px){.cols{grid-template-columns:1fr 1fr}}
+  .col{padding:clamp(22px,3.5vw,34px) clamp(22px,4vw,38px)}
+  .col + .col{border-top:1px solid rgba(255,255,255,.12)}
+  @media(min-width:720px){.col + .col{border-top:none;border-left:1px solid rgba(255,255,255,.12)}}
+  .col h3{
+    font-family:"Barlow Semi Condensed",sans-serif;font-weight:700;
+    text-transform:uppercase;letter-spacing:.14em;font-size:13px;
+    display:flex;align-items:center;gap:10px;margin-bottom:4px;
+  }
+  .col[data-zone="gastro"] h3{color:#ff938a}
+  .col[data-zone="lounge"] h3{color:var(--rose-1)}
+  .col .faixa{
+    font-family:"Barlow",sans-serif;font-weight:600;font-style:italic;
+    color:rgba(255,235,233,.5);font-size:13px;margin-bottom:18px;
+  }
+  ul{list-style:none;display:grid;gap:11px}
+  li{
+    display:flex;gap:12px;align-items:flex-start;
+    font-size:clamp(15px,2.1vw,17px);color:#fbeeee;
+    animation:pop .32s cubic-bezier(.2,.7,.3,1) both;
+  }
+  li .mk{
+    flex:0 0 auto;margin-top:.36em;width:8px;height:8px;border-radius:50%;
+    background:var(--rose-1);
+  }
+  .col[data-zone="gastro"] li .mk{background:#ff5a4e}
+  li b{font-weight:600}
+  .col-empty{color:rgba(255,235,233,.45);font-size:15px;font-style:italic}
+
+  @keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  .result-foot{
+    padding:18px clamp(22px,4vw,38px);border-top:1px solid rgba(255,255,255,.12);
+    font-size:13px;color:rgba(255,235,233,.5);
+    display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;
+  }
+  .result-foot .pin{color:#ffb9b2;font-weight:600}
+
+  .empty-state{
+    padding:clamp(34px,6vw,60px) clamp(22px,4vw,38px);text-align:center;
+    color:rgba(255,235,233,.6);
+  }
+  .empty-state strong{display:block;font-family:"Anton",sans-serif;font-size:clamp(22px,4vw,30px);color:#fff;text-transform:uppercase;margin-bottom:8px}
+
+  /* ---------- CTA WHATSAPP ---------- */
+  .cta-final{margin-top:clamp(24px,3.5vw,36px);text-align:center}
+  .wa-btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:12px;
+    width:100%;max-width:520px;
+    padding:19px 26px;border-radius:6px;
+    background:#25d366;color:#06331a;text-decoration:none;
+    font-family:"Barlow Semi Condensed",sans-serif;font-weight:700;
+    text-transform:uppercase;letter-spacing:.05em;font-size:clamp(15px,2.4vw,18px);
+    box-shadow:0 16px 40px -16px rgba(37,211,102,.7);
+    transition:transform .12s ease,box-shadow .2s ease,background .2s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .wa-btn:hover{background:#2ee574;transform:translateY(-2px);box-shadow:0 22px 50px -16px rgba(37,211,102,.8)}
+  .wa-btn:active{transform:translateY(0)}
+  .wa-btn:focus-visible{outline:3px solid #9af7c1;outline-offset:3px}
+  .wa-btn svg{flex:0 0 auto;width:24px;height:24px;fill:currentColor}
+  .cta-note{margin-top:12px;font-size:13px;color:rgba(246,238,238,.45)}
+
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="venue">Donatello · Aniversários</div>
+    <h1>Monte sua<br><span class="glow">comemoração</span></h1>
+    <p class="lede">Diga quantas pessoas você espera em cada ambiente e veja na hora tudo o que a casa libera pra sua noite.</p>
+  </header>
+
+  <section class="steps" aria-label="Quantidade de convidados por ambiente">
+
+    <div class="counter" data-zone="gastro">
+      <div class="c-tag">Chegando das 18h à 00h</div>
+      <div class="c-name">Espaço Gastro</div>
+      <div class="c-when">Jantar e recepção antes da balada</div>
+      <div class="stepper">
+        <button class="step-btn" data-act="dec" data-target="gastro" aria-label="Diminuir convidados no Gastro">−</button>
+        <div class="count-field">
+          <input type="number" id="gastro" inputmode="numeric" min="0" max="999" value="0" aria-label="Convidados no Espaço Gastro">
+          <div class="count-cap">convidados no gastro</div>
+        </div>
+        <button class="step-btn" data-act="inc" data-target="gastro" aria-label="Aumentar convidados no Gastro">+</button>
+      </div>
+      <div class="tier-badge empty" id="badge-gastro"><span class="dot"></span><span class="txt">Nenhum convidado ainda</span></div>
+      <div class="nudge" id="nudge-gastro"></div>
+    </div>
+
+    <div class="counter" data-zone="lounge">
+      <div class="c-tag">Chegando antes da 1h</div>
+      <div class="c-name">Espaço Lounge</div>
+      <div class="c-when">Balada, pista e madrugada</div>
+      <div class="stepper">
+        <button class="step-btn" data-act="dec" data-target="lounge" aria-label="Diminuir convidados no Lounge">−</button>
+        <div class="count-field">
+          <input type="number" id="lounge" inputmode="numeric" min="0" max="999" value="0" aria-label="Convidados no Espaço Lounge">
+          <div class="count-cap">convidados no lounge</div>
+        </div>
+        <button class="step-btn" data-act="inc" data-target="lounge" aria-label="Aumentar convidados no Lounge">+</button>
+      </div>
+      <div class="tier-badge empty" id="badge-lounge"><span class="dot"></span><span class="txt">Nenhum convidado ainda</span></div>
+      <div class="nudge" id="nudge-lounge"></div>
+    </div>
+
+  </section>
+
+  <h2 class="section-title">Veja os <span>benefícios</span> que você vai ganhar</h2>
+
+  <section class="result" id="result" aria-live="polite">
+    <div class="empty-state" id="emptyState">
+      <strong>Seus brindes aparecem aqui</strong>
+      Comece adicionando convidados em qualquer um dos ambientes acima.
+    </div>
+  </section>
+
+  <div class="cta-final">
+    <a class="wa-btn" id="waBtn" href="#" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.2-.2.3-.7 1-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.2.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2A10 10 0 0 0 3.5 17.2L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
+      Enviar lista de convidados
+    </a>
+    <p class="cta-note">Você fala direto com o atendimento do Donatello.</p>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  // Faixas -> índice de tier
+  function tierOf(n){
+    if(n <= 0) return -1;
+    if(n <= 5) return 0;
+    if(n <= 10) return 1;
+    if(n <= 20) return 2;
+    return 3;
+  }
+  const FAIXA_LABEL = ["1 a 5 convidados","6 a 10 convidados","11 a 20 convidados","21 ou mais convidados"];
+  const FAIXA_SHORT = ["1–5","6–10","11–20","21+"];
+
+  const GASTRO = [
+    ["Reserva do espaço","1 espumante"],
+    ["Reserva do espaço","2 espumantes","Permissão para levar bolo ou doces"],
+    ["Reserva do espaço","3 espumantes","Permissão para levar bolo ou doces","Permissão para decoração"],
+    ["Reserva do espaço","4 espumantes","Permissão para levar bolo ou doces","Permissão para decoração","Convite digital"]
+  ];
+  const LOUNGE = [
+    ["Você e convidados com entrada isenta até 1h"],
+    ["Você e convidados com entrada isenta até 1h","1 espumante"],
+    ["Você e convidados com entrada isenta até 1h","1 garrafa de Absolut, Tanqueray ou Red Label"],
+    ["Você e convidados com entrada isenta até 1h","1 garrafa de Absolut, Tanqueray ou Red Label","5 Red Bull","2 águas","Convite digital"]
+  ];
+
+  const gInput = document.getElementById('gastro');
+  const lInput = document.getElementById('lounge');
+  const resultEl = document.getElementById('result');
+  const emptyEl = document.getElementById('emptyState');
+  const badgeG = document.getElementById('badge-gastro');
+  const badgeL = document.getElementById('badge-lounge');
+  const nudgeG = document.getElementById('nudge-gastro');
+  const nudgeL = document.getElementById('nudge-lounge');
+  const waBtn = document.getElementById('waBtn');
+
+  // >>> TROCAR pelo WhatsApp de atendimento do Donatello (formato: 55 + DDD + número) <<<
+  const WA_PHONE = "5551999999999";
+
+  // início de cada faixa: 1-5, 6-10, 11-20, 21+
+  const TIER_START = [1,6,11,21];
+  const ZONE_NAME = {gastro:"Gastro", lounge:"Lounge"};
+
+  function clamp(v){ v = parseInt(v,10); if(isNaN(v)||v<0) v=0; if(v>999) v=999; return v; }
+
+  function setBadge(el,tier){
+    const txt = el.querySelector('.txt');
+    if(tier < 0){ el.classList.add('empty'); txt.textContent="Nenhum convidado ainda"; }
+    else { el.classList.remove('empty'); txt.textContent="Faixa "+FAIXA_LABEL[tier]; }
+  }
+
+  function listHTML(items,zone){
+    return '<ul>'+items.map((it,i)=>
+      '<li style="animation-delay:'+(i*45)+'ms"><span class="mk"></span><span>'+it+'</span></li>'
+    ).join('')+'</ul>';
+  }
+
+  // benefícios novos/melhorados ao subir de faixa
+  function unlockDiff(data,tier){
+    const next = data[tier+1];
+    const cur = (tier < 0) ? [] : data[tier];
+    return next.filter(x => !cur.includes(x));
+  }
+
+  function humanList(arr){
+    if(arr.length===1) return arr[0];
+    if(arr.length===2) return arr[0]+" e "+arr[1];
+    return arr.slice(0,-1).join(", ")+" e "+arr[arr.length-1];
+  }
+
+  // monta o incentivo de venda de um ambiente
+  function renderNudge(el,zone,n,tier,data){
+    const name = ZONE_NAME[zone];
+    el.className = "nudge show";
+
+    // já está no topo: reforço positivo + barra cheia
+    if(tier >= data.length-1){
+      el.classList.add('maxed');
+      el.innerHTML =
+        '<div class="n-head"><span class="spark">★</span>Pacote completo do '+name+' liberado!</div>'+
+        '<div class="meter"><div class="meter-fill" style="width:100%"></div></div>'+
+        '<div class="meter-scale"><span>Nível máximo</span><span><b>100%</b></span></div>'+
+        '<div class="n-unlock">Você já garantiu todos os benefícios deste ambiente. Bora comemorar!</div>';
+      return;
+    }
+
+    const start = (tier < 0) ? 0 : TIER_START[tier];   // início da faixa atual
+    const end = TIER_START[tier+1];                     // gatilho do próximo nível
+    const need = end - n;                               // quantos faltam
+    const pct = Math.max(0, Math.min(100, Math.round(((n - start)/(end - start))*100)));
+
+    const unlock = unlockDiff(data,tier);
+    const unlockTxt = humanList(unlock);
+
+    let headTxt, hot = false;
+    if(n <= 0){
+      headTxt = "Adicione 1 convidado e comece a destravar seus prêmios";
+      hot = true;
+    } else if(need === 1){
+      headTxt = "Falta só 1 convidado pra destravar mais um prêmio!";
+      hot = true;
+    } else if(need === 2){
+      headTxt = "Faltam só 2 convidados pra subir de nível!";
+      hot = true;
+    } else {
+      headTxt = "Adicione + "+need+" convidados e você destrava um novo nível";
+    }
+
+    if(hot) el.classList.add('hot');
+
+    el.innerHTML =
+      '<div class="n-head"><span class="spark">'+(hot?'⚡':'↑')+'</span>'+headTxt+'</div>'+
+      '<div class="meter"><div class="meter-fill" style="width:'+pct+'%"></div></div>'+
+      '<div class="meter-scale"><span><b>'+n+'</b> no '+name+'</span><span>faltam <b>'+need+'</b> pro nível '+end+'+</span></div>'+
+      '<div class="n-unlock">Você passa a ganhar <b>'+unlockTxt+'</b>.</div>';
+  }
+
+  // monta a mensagem que vai pro WhatsApp com o resumo da seleção
+  function waMessage(g,l,gTier,lTier){
+    const linhas = ["Olá! Quero garantir minha comemoração no Donatello. 🎉",""];
+    if(gTier < 0 && lTier < 0){
+      linhas.push("Ainda estou montando minha lista de convidados.");
+    } else {
+      if(gTier >= 0){
+        linhas.push("*Espaço Gastro* — "+g+" convidado(s) (faixa "+FAIXA_SHORT[gTier]+")");
+        GASTRO[gTier].forEach(b => linhas.push("• "+b));
+        linhas.push("");
+      }
+      if(lTier >= 0){
+        linhas.push("*Espaço Lounge* — "+l+" convidado(s) (faixa "+FAIXA_SHORT[lTier]+")");
+        LOUNGE[lTier].forEach(b => linhas.push("• "+b));
+        linhas.push("");
+      }
+      linhas.push("Podem confirmar a disponibilidade?");
+    }
+    return linhas.join("\n");
+  }
+
+  function render(){
+    const g = clamp(gInput.value);
+    const l = clamp(lInput.value);
+    gInput.value = g; lInput.value = l;
+
+    const gTier = tierOf(g);
+    const lTier = tierOf(l);
+
+    setBadge(badgeG,gTier);
+    setBadge(badgeL,lTier);
+    renderNudge(nudgeG,'gastro',g,gTier,GASTRO);
+    renderNudge(nudgeL,'lounge',l,lTier,LOUNGE);
+
+    // atualiza o link do WhatsApp com o resumo atual
+    waBtn.href = "https://wa.me/"+WA_PHONE+"?text="+encodeURIComponent(waMessage(g,l,gTier,lTier));
+
+    if(gTier < 0 && lTier < 0){
+      resultEl.innerHTML = '<div class="empty-state" id="emptyState"><strong>Seus brindes aparecem aqui</strong>Comece adicionando convidados em qualquer um dos ambientes acima.</div>';
+      return;
+    }
+
+    const both = gTier>=0 && lTier>=0;
+    const heading = both
+      ? '<h2>Sua noite <span>Gastro + Lounge</span></h2>'
+      : (gTier>=0 ? '<h2>Sua noite no <span>Gastro</span></h2>' : '<h2>Sua noite no <span>Lounge</span></h2>');
+    const sub = both
+      ? 'Os benefícios dos dois ambientes somados, conforme a quantidade em cada um.'
+      : 'Adicione convidados no outro ambiente pra somar ainda mais benefícios.';
+
+    // Gastro column
+    let gCol;
+    if(gTier>=0){
+      gCol = '<div class="col" data-zone="gastro"><h3>Espaço Gastro</h3><div class="faixa">Faixa '+FAIXA_LABEL[gTier]+'</div>'+listHTML(GASTRO[gTier])+'</div>';
+    } else {
+      gCol = '<div class="col" data-zone="gastro"><h3>Espaço Gastro</h3><div class="faixa">Nenhum convidado neste ambiente</div><p class="col-empty">Some convidados no Gastro pra liberar reserva, espumantes e mais.</p></div>';
+    }
+    // Lounge column
+    let lCol;
+    if(lTier>=0){
+      lCol = '<div class="col" data-zone="lounge"><h3>Espaço Lounge</h3><div class="faixa">Faixa '+FAIXA_LABEL[lTier]+'</div>'+listHTML(LOUNGE[lTier])+'</div>';
+    } else {
+      lCol = '<div class="col" data-zone="lounge"><h3>Espaço Lounge</h3><div class="faixa">Nenhum convidado neste ambiente</div><p class="col-empty">Some convidados no Lounge pra liberar entrada isenta, bebidas e mais.</p></div>';
+    }
+
+    resultEl.innerHTML =
+      '<div class="result-head">'+heading+'<p>'+sub+'</p></div>'+
+      '<div class="cols">'+gCol+lCol+'</div>'+
+      '<div class="result-foot"><span class="pin">Donatello</span><span>Benefícios válidos conforme a quantidade de convidados presentes em cada ambiente.</span></div>';
+  }
+
+  document.querySelectorAll('.step-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const el = document.getElementById(btn.dataset.target);
+      let v = clamp(el.value);
+      v += (btn.dataset.act==='inc') ? 1 : -1;
+      if(v<0) v=0;
+      el.value = v;
+      render();
+    });
+  });
+  [gInput,lInput].forEach(inp=>{
+    inp.addEventListener('input',render);
+    inp.addEventListener('blur',render);
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
