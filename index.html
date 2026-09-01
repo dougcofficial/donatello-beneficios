@@ -250,6 +250,26 @@
   .nudge.maxed .n-head{color:var(--rose-1)}
   .nudge.maxed .spark{background:rgba(214,169,174,.2);color:var(--rose-1)}
 
+  /* variação roxa do aviso dentro do Lounge */
+  .counter[data-zone="lounge"] .nudge .spark{background:rgba(196,120,190,.16);color:#d98fd2}
+  .counter[data-zone="lounge"] .nudge .meter-fill{
+    background:linear-gradient(90deg,#7a3f86,#c478be 70%,#e8a6e1);
+    box-shadow:0 0 12px rgba(196,120,190,.55);
+  }
+  .counter[data-zone="lounge"] .nudge.hot{
+    background:linear-gradient(120deg,rgba(196,120,190,.18),rgba(196,120,190,.05));
+    border-color:rgba(196,120,190,.55);
+    animation:breathe-lounge 2.2s ease-in-out infinite;
+  }
+  .counter[data-zone="lounge"] .nudge.hot .n-head{color:#f2d3ef}
+  .counter[data-zone="lounge"] .nudge.hot .spark{background:#c478be;color:#fff}
+  .counter[data-zone="lounge"] .nudge.hot .meter-fill{background:linear-gradient(90deg,#c478be,#eaa9e3)}
+
+  @keyframes breathe-lounge{
+    0%,100%{box-shadow:0 0 0 0 rgba(196,120,190,0)}
+    50%{box-shadow:0 0 22px 1px rgba(196,120,190,.3)}
+  }
+
   @keyframes breathe{
     0%,100%{box-shadow:0 0 0 0 rgba(229,52,42,0)}
     50%{box-shadow:0 0 22px 1px rgba(229,52,42,.28)}
