@@ -85,6 +85,39 @@
   }
   .c-when{color:rgba(246,238,238,.5);font-size:14px;margin-bottom:22px}
 
+  /* ---------- FOTO DO AMBIENTE ---------- */
+  .c-photo{
+    position:relative;
+    margin:calc(-1 * clamp(22px,3vw,30px));
+    margin-bottom:clamp(18px,2.5vw,24px);
+    aspect-ratio:16/9;
+    overflow:hidden;
+    background:linear-gradient(135deg,#2a1113,#421618);
+    display:grid;place-items:center;
+  }
+  .counter[data-zone="lounge"] .c-photo{background:linear-gradient(135deg,#241019,#3a1430)}
+  .c-photo img{
+    position:absolute;inset:0;width:100%;height:100%;
+    object-fit:cover;display:block;
+  }
+  .c-photo::after{
+    content:"";position:absolute;left:0;right:0;bottom:0;height:3px;z-index:2;
+    background:var(--red);
+  }
+  .counter[data-zone="lounge"] .c-photo::after{background:var(--rose-2)}
+  .c-photo-ph{
+    position:relative;z-index:0;text-align:center;padding:14px;
+    display:flex;flex-direction:column;gap:7px;align-items:center;
+    font-family:"Barlow Semi Condensed",sans-serif;font-weight:700;
+    text-transform:uppercase;letter-spacing:.12em;font-size:14px;
+    color:rgba(255,255,255,.72);
+  }
+  .c-photo-ph .cam{font-size:26px;line-height:1;opacity:.85}
+  .c-photo-ph small{
+    font-weight:600;letter-spacing:.03em;font-size:11px;text-transform:none;
+    color:rgba(255,255,255,.42);
+  }
+
   .stepper{display:flex;align-items:center;gap:16px}
   .step-btn{
     width:52px;height:52px;flex:0 0 52px;
@@ -316,6 +349,10 @@
   <section class="steps" aria-label="Quantidade de convidados por ambiente">
 
     <div class="counter" data-zone="gastro">
+      <figure class="c-photo">
+        <span class="c-photo-ph"><span class="cam">📷</span>Foto do Espaço Gastro<small>substitua por gastro.jpg no repositório</small></span>
+        <img src="gastro.jpg" alt="Espaço Gastro" onerror="this.style.display='none'">
+      </figure>
       <div class="c-tag">Chegando das 18h à 00h</div>
       <div class="c-name">Espaço Gastro</div>
       <div class="c-when">Jantar e recepção antes da balada</div>
@@ -332,6 +369,10 @@
     </div>
 
     <div class="counter" data-zone="lounge">
+      <figure class="c-photo">
+        <span class="c-photo-ph"><span class="cam">📷</span>Foto do Espaço Lounge<small>substitua por lounge.jpg no repositório</small></span>
+        <img src="lounge.jpg" alt="Espaço Lounge" onerror="this.style.display='none'">
+      </figure>
       <div class="c-tag">Chegando antes da 1h</div>
       <div class="c-name">Espaço Lounge</div>
       <div class="c-when">Balada, pista e madrugada</div>
