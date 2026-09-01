@@ -65,16 +65,28 @@
   }
 
   /* ---------- STEP LABEL ---------- */
-  .steps{margin-top:clamp(34px,5vw,60px);display:grid;gap:20px}
+  .steps{margin-top:clamp(34px,5vw,60px);display:grid;gap:clamp(28px,7vw,32px)}
   @media(min-width:760px){.steps{grid-template-columns:1fr 1fr}}
 
   .counter{
     position:relative;
-    background:linear-gradient(158deg,var(--ink-2),#0c0809 70%);
-    border:1px solid var(--line);
-    border-radius:4px;
+    border-radius:8px;
     padding:clamp(22px,3vw,30px);
     overflow:hidden;
+  }
+  .counter[data-zone="gastro"]{
+    background:
+      radial-gradient(135% 90% at 0% 100%,rgba(229,52,42,.18),transparent 60%),
+      linear-gradient(158deg,#2a1012,#1a0a0b 75%);
+    border:1px solid rgba(229,52,42,.30);
+    box-shadow:0 22px 55px -32px rgba(229,52,42,.55);
+  }
+  .counter[data-zone="lounge"]{
+    background:
+      radial-gradient(135% 90% at 100% 100%,rgba(196,120,190,.20),transparent 60%),
+      linear-gradient(158deg,#221530,#130a1c 75%);
+    border:1px solid rgba(196,120,190,.34);
+    box-shadow:0 22px 55px -32px rgba(150,90,180,.5);
   }
   .counter::after{
     content:"";position:absolute;inset:0 0 auto 0;height:4px;
