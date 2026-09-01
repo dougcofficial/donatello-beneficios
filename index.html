@@ -247,11 +247,13 @@
   .section-title{
     margin-top:clamp(38px,6vw,64px);
     font-family:"Bomiro","Anton",sans-serif;font-weight:400;text-transform:uppercase;
-    font-size:clamp(22px,4.4vw,34px);line-height:1.02;letter-spacing:0;
+    font-size:clamp(22px,4.4vw,34px);line-height:1.12;letter-spacing:0;
     color:var(--cream);
-    display:flex;align-items:center;gap:14px;
   }
-  .section-title::before{content:"";flex:0 0 auto;width:30px;height:3px;background:var(--red)}
+  .section-title::before{
+    content:"";display:inline-block;width:30px;height:3px;
+    background:var(--red);vertical-align:middle;margin-right:14px;transform:translateY(-4px);
+  }
   .section-title span{color:var(--red)}
 
   /* ---------- RESULT ---------- */
