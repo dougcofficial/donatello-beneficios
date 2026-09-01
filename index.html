@@ -575,21 +575,23 @@
 
   // monta a mensagem que vai pro WhatsApp com o resumo da seleção
   function waMessage(g,l,gTier,lTier){
-    const linhas = ["Olá! Quero garantir minha comemoração no Donatello. 🎉",""];
-    if(gTier < 0 && lTier < 0){
-      linhas.push("Ainda estou montando minha lista de convidados.");
-    } else {
-      if(gTier >= 0){
-        linhas.push("*Espaço Gastro* — "+g+" convidado(s) (faixa "+FAIXA_SHORT[gTier]+")");
-        GASTRO[gTier].forEach(b => linhas.push("• "+b));
-        linhas.push("");
-      }
-      if(lTier >= 0){
-        linhas.push("*Espaço Lounge* — "+l+" convidado(s) (faixa "+FAIXA_SHORT[lTier]+")");
-        LOUNGE[lTier].forEach(b => linhas.push("• "+b));
-        linhas.push("");
-      }
-      linhas.push("Podem confirmar a disponibilidade?");
+    // emoji 🎉 escrito com código seguro (não corrompe no upload)
+    const festa = "\uD83C\uDF89";
+    const linhas = [
+      "Olá!",
+      "Quero garantir minha comemoração no Donatello. "+festa,
+      "Seguem os nomes completos dos meus convidados.",
+      ""
+    ];
+    if(g > 0){
+      linhas.push("Espaço Gastro ("+g+" convidados):");
+      for(let i=1;i<=g;i++) linhas.push(i+") ");
+      linhas.push("");
+    }
+    if(l > 0){
+      linhas.push("Espaço Lounge ("+l+" convidados):");
+      for(let i=1;i<=l;i++) linhas.push(i+") ");
+      linhas.push("");
     }
     return linhas.join("\n");
   }
