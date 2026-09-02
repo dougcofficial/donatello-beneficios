@@ -379,6 +379,29 @@
   .wa-btn svg{flex:0 0 auto;width:24px;height:24px;fill:currentColor}
   .cta-note{margin-top:12px;font-size:13px;color:rgba(246,238,238,.45)}
 
+  /* ---------- REGRAS (discreto) ---------- */
+  .rules{margin-top:16px;max-width:600px;margin-left:auto;margin-right:auto;text-align:left}
+  .rules summary{
+    list-style:none;cursor:pointer;text-align:center;
+    font-size:12px;color:rgba(246,238,238,.4);
+    text-decoration:underline;text-underline-offset:2px;
+    transition:color .15s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .rules summary::-webkit-details-marker{display:none}
+  .rules summary:hover{color:rgba(246,238,238,.65)}
+  .rules[open] summary{margin-bottom:14px}
+  .rules-list{
+    list-style:none;display:grid;gap:8px;
+    padding:16px 18px;border:1px solid var(--line);border-radius:6px;
+    background:rgba(246,238,238,.02);
+  }
+  .rules-list li{
+    display:flex;gap:9px;align-items:flex-start;
+    font-size:11.5px;line-height:1.5;color:rgba(246,238,238,.5);
+  }
+  .rules-list li::before{content:"•";color:rgba(246,238,238,.35);flex:0 0 auto}
+
   @media(prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important}
   }
@@ -452,6 +475,25 @@
       Enviar lista de convidados
     </a>
     <p class="cta-note">Você fala direto com o atendimento do Donatello.</p>
+
+    <details class="rules">
+      <summary>Veja as regras completas desta promoção clicando aqui</summary>
+      <ul class="rules-list">
+        <li>Os benefícios são válidos mediante reserva antecipada e disponibilidade da data.</li>
+        <li>A promoção é válida para comemorações realizadas de 7 dias antes até 7 dias depois da data oficial do aniversário.</li>
+        <li>A quantidade considerada é a de convidados que efetivamente comparecerem.</li>
+        <li>No Lounge, contam somente os convidados da lista que entrarem até 01:00.</li>
+        <li>Após 01:00, será cobrado o valor de entrada vigente no evento.</li>
+        <li>A lista de aniversário não garante mesa, camarote ou espaço reservado.</li>
+        <li>Os benefícios não são cumulativos entre faixas de um mesmo ambiente.</li>
+        <li>Na experiência Gastro + Lounge, os benefícios dos dois ambientes são somados e conferidos separadamente.</li>
+        <li>Cortesias não podem ser convertidas em dinheiro, crédito, desconto ou consumação.</li>
+        <li>Produtos e opções de combo estão sujeitos à disponibilidade de estoque.</li>
+        <li>Decoração, bolo e doces dependem das condições da faixa ou do espaço reservado e de aprovação prévia.</li>
+        <li>Grupos grandes dependem da disponibilidade, disposição das mesas e aprovação da gerência.</li>
+        <li>Eventos especiais poderão ter condições diferentes, informadas previamente.</li>
+      </ul>
+    </details>
   </div>
 
 </div>
